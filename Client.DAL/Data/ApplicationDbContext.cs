@@ -10,15 +10,21 @@ using System.Threading.Tasks;
 
 namespace Client.DAL.Data
 {
-    internal class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base( options)
         {
-            optionsBuilder.UseSqlServer("Server = . ; Database = MVCClientApplication ; Trusted_Connection = True ; MultipleActiveResultSets = False;");
+            
         }
+        // use when you didnt use dependancie injection
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server = . ; Database = MVCClientApplication ; Trusted_Connection = True ; MultipleActiveResultSets = False;");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration<department>(new DepartmentConfigurations());
+          //modelBuilder.ApplyConfiguration<department>(new DepartmentConfigurations());
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 

@@ -1,9 +1,13 @@
+using Client.DAL.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +27,19 @@ namespace Client.PL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(); //  Register built-in Services Required By MVC
+
+            //services.AddScoped<ApplicationDbContext>();
+            //services.AddScoped<DbContextOptions<ApplicationDbContext>>();
+
+            //services.AddDbContext<ApplicationDbContext>
+            //    (
+            //    contextLifetime: ServiceLifetime.Scoped,
+            //    optionsLifetime: ServiceLifetime.Scoped
+            //    );
+            services.AddDbContext<ApplicationDbContext>(options =>
+                                                        options.UseSqlServer("Server = . ; Database = MVCClientApplication ; Trusted_Connection = True ; MultipleActiveResultSets = False;")
+                                                       );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
