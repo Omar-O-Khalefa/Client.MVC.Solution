@@ -29,6 +29,6 @@ namespace Client.DAL.Data
         }
 
 
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<Department> Departmentss { get; set; }
     }
 }

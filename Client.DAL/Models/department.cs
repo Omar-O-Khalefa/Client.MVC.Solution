@@ -14,6 +14,8 @@ namespace Client.DAL.Models
         public string  Code { get; set; }
        // [Required]
         public string Name { get; set; }
+
+        [Display(Name ="Date Of Creation")]
         public DateTime DateOfCreation { get; set; } = DateTime.Now;
     }
 }

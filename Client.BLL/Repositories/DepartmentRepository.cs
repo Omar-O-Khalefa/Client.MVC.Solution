@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Client.BLL.Repositories
 {
-    internal class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository : IDepartmentRepository
     {
         private readonly ApplicationDbContext _dbcontext;
         public DepartmentRepository( ApplicationDbContext dbContext)
@@ -19,7 +19,7 @@ namespace Client.BLL.Repositories
         }
         public int Add(Department enity)
         {
-            _dbcontext.Departments.Add(enity);
+            _dbcontext.Departmentss.Add(enity);
             return _dbcontext.SaveChanges();
         }
         public int Update(Department enity)
@@ -29,7 +29,7 @@ namespace Client.BLL.Repositories
         }
         public int Delete(Department enity)
         {
-            _dbcontext.Departments.Remove(enity);
+            _dbcontext.Departmentss.Remove(enity);
             return _dbcontext.SaveChanges();
         }
         public Department Get(int id)
@@ -43,12 +43,13 @@ namespace Client.BLL.Repositories
             ///return Depart;
             //return _dbcontext.Find<Department>(id);
                 
-            return _dbcontext.Departments.Find(id);
+            return _dbcontext.Departmentss.Find(id);
         }
         public IEnumerable<Department> GetAll()
         {
-            return _dbcontext.Departments.AsNoTracking().ToList();
+            return _dbcontext.Departmentss.AsNoTracking().ToList();
         }
+
 
     }
 }
