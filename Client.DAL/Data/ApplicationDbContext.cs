@@ -24,11 +24,11 @@ namespace Client.DAL.Data
         //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          //modelBuilder.ApplyConfiguration<department>(new DepartmentConfigurations());
+          //modelBuilder.ApplyConfiguration<Department>(new DepartmentConfigurations());
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
 
-        public DbSet<department> Dpartments { get; set; }
+        public DbSet<Department> Dpartments { get; set; }
     }
 }

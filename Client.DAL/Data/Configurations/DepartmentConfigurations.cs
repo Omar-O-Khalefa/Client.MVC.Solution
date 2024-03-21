@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Client.DAL.Data.Configurations
 {
-    internal class DepartmentConfigurations : IEntityTypeConfiguration<department>
+    internal class DepartmentConfigurations : IEntityTypeConfiguration<Department>
     {
-        public void Configure(EntityTypeBuilder<department> builder)
+        public void Configure(EntityTypeBuilder<Department> builder)
         {
             //fluent Apis for "Department" Domain
             builder.Property(x => x.Id).UseIdentityColumn(10,10);
