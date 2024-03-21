@@ -17,12 +17,12 @@ namespace Client.PL
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -38,7 +38,7 @@ namespace Client.PL
             //    optionsLifetime: ServiceLifetime.Scoped
             //    );
             services.AddDbContext<ApplicationDbContext>(options =>
-                                                        options.UseSqlServer("Server = . ; Database = MVCClientApplication ; Trusted_Connection = True ; MultipleActiveResultSets = False;")
+                                                        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                                                        );
         }
 
