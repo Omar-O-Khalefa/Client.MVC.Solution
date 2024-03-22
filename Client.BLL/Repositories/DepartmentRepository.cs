@@ -19,7 +19,7 @@ namespace Client.BLL.Repositories
         }
         public int Add(Department enity)
         {
-            _dbcontext.Departmentss.Add(enity);
+            _dbcontext.Departments.Add(enity);
             return _dbcontext.SaveChanges();
         }
         public int Update(Department enity)
@@ -29,7 +29,7 @@ namespace Client.BLL.Repositories
         }
         public int Delete(Department enity)
         {
-            _dbcontext.Departmentss.Remove(enity);
+            _dbcontext.Departments.Remove(enity);
             return _dbcontext.SaveChanges();
         }
         public Department Get(int id)
@@ -43,11 +43,11 @@ namespace Client.BLL.Repositories
             ///return Depart;
             //return _dbcontext.Find<Department>(id);
                 
-            return _dbcontext.Departmentss.Find(id);
+            return _dbcontext.Departments.Find(id);
         }
         public IEnumerable<Department> GetAll()
         {
-            return _dbcontext.Departmentss.AsNoTracking().ToList();
+            return _dbcontext.Departments.AsNoTracking().ToList();
         }
 
 
