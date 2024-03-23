@@ -41,5 +41,15 @@ namespace Client.PL.Controllers
             }
             return View(department);
         }
+
+        public IActionResult Details(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+            var Dept = _departmentRepository.Get(id.Value);
+            if(Dept is null)
+                return NotFound();
+            return View(Dept);
+        }
     }
 }
