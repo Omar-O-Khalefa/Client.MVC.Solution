@@ -43,8 +43,9 @@ namespace Client.PL
 
             services.AddDbContext<ApplicationDbContext>
                 (options =>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+          
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
         }
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Client.BLL.Repositories
 {
-    public class DepartmentRepository: GenericRepository<Department> , IGenericRepository<Department>
+    public class DepartmentRepository: GenericRepository<Department> , IDepartmentRepository
     {
         public DepartmentRepository(ApplicationDbContext dbContext) :base(dbContext)
         {

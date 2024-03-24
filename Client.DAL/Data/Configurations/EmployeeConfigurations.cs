@@ -24,11 +24,11 @@ namespace Client.DAL.Data.Configurations
                 (genderString) => (Gender)Enum.Parse(typeof(Gender), genderString, true)
                              );
 
-            builder.Property(e => e.EmployeeType)
-                .HasConversion(
-                (EmpType) => EmpType.ToString(),
-                (genderString) => (EmpType)Enum.Parse(typeof(Gender), genderString, true)
-                             );
+            //builder.Property(e => e.EmployeeType)
+            //    .HasConversion(
+            //    (EmpType) => EmpType.ToString(),
+            //    (genderString) => (EmpType)Enum.Parse(typeof(Gender), genderString, true)
+            //                 );
                 
         }
     }

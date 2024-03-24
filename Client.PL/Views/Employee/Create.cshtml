@@ -1,0 +1,54 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create New Employee</h1>
+
+<br />
+<br />
+
+<form method="post" asp-action="Create">
+    <div class="form-group">
+        <label class=" col-form-lable" asp-for="Name"></label>
+        <input id="Code" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class=" col-form-lable" asp-for="Email"></label>
+        <input id="Code" asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div> 
+    <div class="form-group">
+        <label class=" col-form-lable" asp-for="Age"></label>
+        <input id="Code" asp-for="Age" class="form-control" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div> 
+    <div class="form-group">
+        <label class=" col-form-lable" asp-for="Adress"></label>
+        <input id="Code" asp-for="Adress" class="form-control" />
+        <span asp-validation-for="Adress" class="text-danger"></span>
+    </div>  
+    <div class="form-group">
+        <label class=" col-form-lable" asp-for="Gender"></label>
+        <input id="Code" asp-for="Gender" class="form-control" />
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input id="Code" asp-for="IsActive" class="form-check-input" />
+        <label class=" col-form-lable" asp-for="IsActive"></label>
+       
+    </div>
+    <div class="form-group">
+        <label class=" col-form-lable" asp-for="Salary"></label>
+        <input id="Code" asp-for="Salary" class="form-control" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class=" col-form-lable" asp-for="HiringDate"></label>
+        <input id="Code" asp-for="HiringDate" class="form-control" />
+    </div>
+
+    <input type="submit" value="Create" class="btn btn-primary" />
+    <a asp-controller="Employee" asp-action="Index"  class="btn btn-light"> Back To List</a>
+</form>
