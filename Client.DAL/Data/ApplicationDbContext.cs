@@ -25,10 +25,12 @@ namespace Client.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
           //modelBuilder.ApplyConfiguration<Department>(new DepartmentConfigurations());
+          //modelBuilder.ApplyConfiguration<Employee>(new EmployeetConfigurations());
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
 
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

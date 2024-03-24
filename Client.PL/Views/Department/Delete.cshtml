@@ -1,12 +1,14 @@
 ﻿@model Department
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
 
-<h1>Department Details</h1>
+<h1>Are You Sure To Delete This Department</h1>
 
+<br />
+<br />
 
-<form method="post" asp-action="Create">
+<form method="post" asp-action="Delete">
     <div class="form-group">
         <label class=" col-form-lable" asp-for="Code"></label>
         <input id="Code" asp-for="Code" class="form-control" readonly />
@@ -20,6 +22,7 @@
         <input id="Code" asp-for="DateOfCreation" class="form-control" readonly />
     </div>
 
-    <a asp-controller="Department" asp-action="Index" class="btn btn-light"> Back To List</a>
+    <input type="submit" value="Delete" class="btn btn-Danger" />
+    <a asp-controller="Department" asp-action="Index" class="btn btn-secondary"> Cancel</a>
 
 </form>
