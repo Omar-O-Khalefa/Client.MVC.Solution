@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Client.BLL.Interfaces
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository :IGenericRepository<Department>
     {
-        IEnumerable<Department> GetAll();
-        Department Get(int id);
-        int Add(Department enity);
-        int Update(Department enity);
-        int Delete(Department enity); 
+    //    IEnumerable<Department> GetAll();
+    //    Department Get(int id);
+    //    int Add(Department enity);
+    //    int Update(Department enity);
+    //    int Delete(Department enity); 
 
     }
 }

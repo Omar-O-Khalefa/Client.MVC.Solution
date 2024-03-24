@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Client.DAL.Models
 {
-    public class Department
+    public class Department :ModelBase
     {
         public int Id { get; set; }
         //[Required(ErrorMessage ="Code Is Required ya Hamada !!")]

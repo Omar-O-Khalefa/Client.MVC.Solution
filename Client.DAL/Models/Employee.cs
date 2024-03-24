@@ -21,7 +21,7 @@ namespace Client.DAL.Models
         FullTime =1
             ,PartTime =2    
     }
-    public class Employee
+    public class Employee : ModelBase
     {
         public int Id { get; set; }
         [Required(ErrorMessage ="Name Is Requierd")]
