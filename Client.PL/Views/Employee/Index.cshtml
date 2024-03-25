@@ -12,7 +12,13 @@
 
 <a asp-action="Create" asp-controller="Employee" class="btn btn-primary">Create New Employee</a>
 <br />
-
+@if (!string.IsNullOrEmpty(TempData["Message"] as string))
+{
+<div class="alert alert-primary mt-2">
+    @TempData["Message"]
+</div>
+    
+}
 <br/>
 @if(Model.Count() > 0)
 {

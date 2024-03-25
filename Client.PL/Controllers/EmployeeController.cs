@@ -38,10 +38,13 @@ namespace Client.PL.Controllers
                 var Coun = _EmployeeRepository.Add(employee);
                 if (Coun > 0)
                 {
+                    TempData["Message"] = "Employee Is successfuly Add";
                     return RedirectToAction(nameof(Index));
                 }
+              
             }
             
+            TempData["Message"] = "An Error Has Occred";
             return View(employee);
         }
 
