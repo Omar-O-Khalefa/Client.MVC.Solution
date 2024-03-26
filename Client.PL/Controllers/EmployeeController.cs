@@ -11,11 +11,14 @@ namespace Client.PL.Controllers
         // Association : EmployeeController has EmployeeRepository
 
         private readonly IEmployeeRepository _EmployeeRepository;
+       //private readonly IDepartmentRepository _departmentRepository;
         private readonly IHostEnvironment _env;
 
-        public EmployeeController(IEmployeeRepository employee, IHostEnvironment Env)
+        public EmployeeController(IEmployeeRepository employee,/*IDepartmentRepository departmentRepository,*/ IHostEnvironment Env)
         {
+
             _EmployeeRepository = employee;
+            //_departmentRepository = departmentRepository;
             _env = Env;
         }
         // /Employee/Index
@@ -28,6 +31,7 @@ namespace Client.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+         //   ViewData["Departments"]= _departmentRepository.GetAll();
             return View();
         }
         [HttpPost]
@@ -66,6 +70,8 @@ namespace Client.PL.Controllers
             //if (Employee is null)
             //    return NotFound();
             //return View(Employee);
+
+           // ViewData["Departments"] = _departmentRepository.GetAll();
             return Details(id, "Edit");
         }
         [HttpPost]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -52,5 +53,13 @@ namespace Client.DAL.Models
         public DateTime HiringDate { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public bool IsDeleted { get; set; } = false;
+
+        //[ForeignKey("Department")]
+
+        //navigational Porperty => [One]
+        public int? DepartmentId { get; set; } // foregin Key Column
+
+        //[InverseProperty(nameof(Models.Department.Employees))]
+        public Department Department { get; set; }  
      }
 }

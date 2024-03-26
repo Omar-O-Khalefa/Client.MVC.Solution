@@ -2,11 +2,8 @@
 using Client.DAL.Data;
 using Client.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client.BLL.Repositories
 {
@@ -28,7 +25,7 @@ namespace Client.BLL.Repositories
         public int Update(T enity)
         {
             _dbcontext.Set<T>().Update(enity);
-          //  _dbcontext.Update(enity);  EF Core 3.1 New Feature
+            //  _dbcontext.Update(enity);  EF Core 3.1 New Feature
             return _dbcontext.SaveChanges();
         }
         public int Delete(T enity)
@@ -51,7 +48,14 @@ namespace Client.BLL.Repositories
         }
         public IEnumerable<T> GetAll()
         {
-            return _dbcontext.Set<T>().AsNoTracking().ToList();
+            if (typeof(T) == typeof(Employee))
+            {
+                return (IEnumerable<T>)_dbcontext.Employees.Include(E => E.Department).AsNoTracking();
+            }
+            else
+            {
+                return _dbcontext.Set<T>().AsNoTracking().ToList();
+            }
         }
 
     }

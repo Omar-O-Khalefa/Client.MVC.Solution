@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,5 +18,11 @@ namespace Client.DAL.Models
 
         [Display(Name ="Date Of Creation")]
         public DateTime DateOfCreation { get; set; } = DateTime.Now;
+
+
+        //navigationl Property => [Many]
+
+        //[InverseProperty(nameof(Employee.Department))]
+        public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
     }
 }

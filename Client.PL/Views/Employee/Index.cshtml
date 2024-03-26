@@ -27,6 +27,8 @@
             <tr>
                 <th>@Html.DisplayNameFor(D=>D.Name)</th>
                 <th>@Html.DisplayNameFor(D=>D.Age)</th>
+                <th>@Html.DisplayNameFor(D=>D.Adress)</th>
+                <th>@Html.DisplayNameFor(D=>D.Department)</th>
                 <th>@Html.DisplayNameFor(D=>D.Salary)</th>
                 <th>@Html.DisplayNameFor(D=>D.IsActive)</th>
                 <th>@Html.DisplayNameFor(D=>D.Gender)</th>
@@ -47,6 +49,8 @@
                 <tr>
                     <td>@employee.Name</td>
                     <td>@employee.Age</td>
+                    <td>@employee.Adress</td>
+                    <td>@employee.Department?.Name</td>
                     <td>@Html.DisplayFor(M=>employee.Salary)</td>
                     <td>@Html.DisplayFor(M=>employee.IsActive)</td>
                     <td>@Html.DisplayFor(M=>employee.Email)</td>
