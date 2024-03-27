@@ -14,7 +14,7 @@ namespace Client.BLL.Interfaces
         //int Add(Employee enity);
         //int Update(Employee enity);
         //int Delete(Employee enity);
-
+        IQueryable<Employee> SearchByName(string name);
         IQueryable<Employee> GetEmployeesByAdress(string adress);
     }
 }

@@ -23,6 +23,12 @@ namespace Client.BLL.Repositories
             return _dbcontext.Employees.Where(E => E.Adress.ToLower() == adress.ToLower());
                 
         }
+
+        public IQueryable<Employee> SearchByName(string name)
+        {
+            return _dbcontext.Employees.Where(E => E.Name.ToLower().Contains(name));
+
+        }
         // Benefits Of Generic Repository Pattern
         // 1.We Create An Abstrct Layer Between Data Access layer (Dbcontext) And Presentation  Layer (Controllers)
         // 2.Reduces  Code Duplicate 
@@ -30,6 +36,7 @@ namespace Client.BLL.Repositories
         // 4.Support Loosly Coupled Approach
         // 5.Support Dependency  Injection
         // 6.Support Unit Testing 
-      
+
+
     }
 }
