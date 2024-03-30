@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Client.BLL.Interfaces;
+using Client.BLL.Repositories;
 using Client.DAL.Models;
 using Client.PL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -42,16 +43,17 @@ namespace Client.PL.Controllers
         public IActionResult Index( string SearchInp)
         {
             var employees = Enumerable.Empty<Employee>();
+            var EmoRepo = _unitOfWork.Repository<Employee>() as EmployeeRepository;
             if (string.IsNullOrEmpty(SearchInp))
             {
 
-                employees = _unitOfWork.EmployeeRepository.GetAll();
+                employees = _unitOfWork.Repository<Employee>().GetAll();
            
 
             }
             else
             {
-                employees = _unitOfWork.EmployeeRepository.SearchByName(SearchInp.ToLower());
+                employees = EmoRepo.SearchByName(SearchInp.ToLower());
             }
            
             var MappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employees);
@@ -83,7 +85,7 @@ namespace Client.PL.Controllers
                 ///};
                 ///
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-                 _unitOfWork.EmployeeRepository.Add(mappedEmp);
+                 _unitOfWork.Repository<Employee>().Add(mappedEmp);
                 var Coun = _unitOfWork.Complete();
                 if (Coun > 0)
                 {
@@ -101,7 +103,7 @@ namespace Client.PL.Controllers
         {
             if (id is null)
                 return BadRequest();
-            var Employee = _unitOfWork.EmployeeRepository.Get(id.Value);
+            var Employee = _unitOfWork.Repository<Employee>().Get(id.Value);
             var MappedEmp =_mapper.Map<Employee, EmployeeViewModel>(Employee);
             if (MappedEmp is null)
                 return NotFound();
@@ -135,7 +137,7 @@ namespace Client.PL.Controllers
             try
             {
                 var mappedEmp = _mapper.Map<EmployeeViewModel,Employee>(employeeVM);
-                _unitOfWork.EmployeeRepository.Update(mappedEmp);
+                _unitOfWork.Repository<Employee>().Update(mappedEmp);
                 _unitOfWork.Complete(); 
                 return RedirectToAction(nameof(Index));
             }
@@ -165,7 +167,7 @@ namespace Client.PL.Controllers
             try
             {
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVm);
-                _unitOfWork.EmployeeRepository.Delete(mappedEmp);
+                _unitOfWork.Repository<Employee>().Delete(mappedEmp);
                 _unitOfWork.Complete(); 
                 return RedirectToAction(nameof(Index));
             }

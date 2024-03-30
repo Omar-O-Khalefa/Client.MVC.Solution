@@ -2,7 +2,7 @@
 @inject IUnitOfWork _UnitOfWork
 @{
    // var deparments = new SelectList(ViewData["Departments"] as IEnumerable<Department>,nameof(Department.Id),nameof(Department.Name));
-   var deparments = new SelectList(_UnitOfWork.DepartmentRepository.GetAll(), nameof(Department.Id), nameof(Department.Name));
+    var deparments = new SelectList(_UnitOfWork.Repository<Department>().GetAll(), nameof(Department.Id), nameof(Department.Name));
 }
 <div class="form-group">
     <label class=" col-form-lable" asp-for="Name"></label>

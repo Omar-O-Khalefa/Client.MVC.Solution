@@ -25,7 +25,7 @@ namespace Client.PL.Controllers
         // /Department/Index
         public IActionResult Index()
         {
-            var Deps = _unitOfWork.DepartmentRepository.GetAll();
+            var Deps = _unitOfWork.Repository<Department>().GetAll();
              
             return View(Deps);
         }
@@ -39,7 +39,7 @@ namespace Client.PL.Controllers
         { 
             if (ModelState.IsValid)
             {
-                _unitOfWork.DepartmentRepository.Add(department);
+                _unitOfWork.Repository<Department>().Add(department);
                 var Coun = _unitOfWork.Complete();
                 if (Coun > 0)
                 {
@@ -53,7 +53,7 @@ namespace Client.PL.Controllers
         {
             if (id is null)
                 return BadRequest();
-            var Dept = _unitOfWork.DepartmentRepository.Get(id.Value);
+            var Dept = _unitOfWork.Repository<Department>().Get(id.Value);
             if(Dept is null)
                 return NotFound();
             return View(ViewName,Dept);
@@ -83,7 +83,7 @@ namespace Client.PL.Controllers
             }
             try
             {
-                _unitOfWork.DepartmentRepository.Update(department);
+                _unitOfWork.Repository<Department>().Update(department);
                 _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
@@ -111,7 +111,7 @@ namespace Client.PL.Controllers
         {
             try
             {
-                _unitOfWork.DepartmentRepository.Delete(department);
+                _unitOfWork.Repository<Department>().Delete(department);
                 _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
