@@ -15,21 +15,21 @@ namespace Client.DAL.Data.Configurations
         {
             // Fluent APIs For "Employee"
             builder.Property(E => E.Name).HasColumnType("varchar").HasMaxLength(50).IsRequired();
-            builder.Property(E=>E.Adress).IsRequired();
+            builder.Property(E => E.Adress).IsRequired();
             builder.Property(E => E.Salary).HasColumnType("decimal(12,2)");
 
-            builder.Property(e => e.Gender)
-                .HasConversion(
-                (Gender) => Gender.ToString(),
-                (genderString) => (Gender)Enum.Parse(typeof(Gender), genderString, true)
-                             );
+            //builder.Property(e => e.Gender)
+            //    .HasConversion(
+            //    (Gender) => Gender.ToString(),
+            //    (genderString) => (Gender)Enum.Parse(typeof(Gender), genderString, true)
+            //                 );
 
             //builder.Property(e => e.EmployeeType)
             //    .HasConversion(
             //    (EmpType) => EmpType.ToString(),
             //    (genderString) => (EmpType)Enum.Parse(typeof(Gender), genderString, true)
             //                 );
-                
+
         }
     }
 }

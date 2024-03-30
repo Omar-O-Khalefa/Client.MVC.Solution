@@ -12,17 +12,20 @@ namespace Client.PL.Controllers
         // Association : DepartmentController has DepartmentRepository
 
         private readonly IDepartmentRepository _departmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IHostEnvironment _env;
 
-        public DepartmentController(IDepartmentRepository department ,IHostEnvironment Env)
+        public DepartmentController(/*IDepartmentRepository department ,*/ IUnitOfWork unitOfWork,IHostEnvironment Env)
+
         {
-            _departmentRepository = department;
+            _unitOfWork = unitOfWork;
+            //_departmentRepository = department;
             _env = Env;
         }
         // /Department/Index
         public IActionResult Index()
         {
-            var Deps = _departmentRepository.GetAll();
+            var Deps = _unitOfWork.DepartmentRepository.GetAll();
              
             return View(Deps);
         }
@@ -36,8 +39,9 @@ namespace Client.PL.Controllers
         { 
             if (ModelState.IsValid)
             {
-                var Coun = _departmentRepository.Add(department);
-                if(Coun > 0)
+                _unitOfWork.DepartmentRepository.Add(department);
+                var Coun = _unitOfWork.Complete();
+                if (Coun > 0)
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -49,7 +53,7 @@ namespace Client.PL.Controllers
         {
             if (id is null)
                 return BadRequest();
-            var Dept = _departmentRepository.Get(id.Value);
+            var Dept = _unitOfWork.DepartmentRepository.Get(id.Value);
             if(Dept is null)
                 return NotFound();
             return View(ViewName,Dept);
@@ -79,7 +83,8 @@ namespace Client.PL.Controllers
             }
             try
             {
-                _departmentRepository.Update(department);
+                _unitOfWork.DepartmentRepository.Update(department);
+                _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             catch (System.Exception ex)
@@ -106,7 +111,8 @@ namespace Client.PL.Controllers
         {
             try
             {
-                _departmentRepository.Delete(department);
+                _unitOfWork.DepartmentRepository.Delete(department);
+                _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             catch (System.Exception ex)

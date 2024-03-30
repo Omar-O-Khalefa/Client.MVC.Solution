@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 
 namespace Client.DAL.Models
 {
-    public enum Gender
-    {
-        [EnumMember(Value ="Male")]
-        Male=1,
-        [EnumMember(Value ="Female")]
-        Female=2
+    //public enum Gender
+    //{
+    //    [EnumMember(Value = "Male")]
+    //    Male = 1,
+    //    [EnumMember(Value = "Female")]
+    //    Female = 2
 
-    }
-    public enum EmpType
-    {
-        FullTime =1
-            ,PartTime =2    
-    }
+    //}
+    //public enum EmpType
+    //{
+    //    FullTime = 1
+    //        , PartTime = 2
+    //}
     public class Employee : ModelBase
     {
 
@@ -31,12 +31,12 @@ namespace Client.DAL.Models
         public string Adress { get; set; }
         public decimal Salary { get; set; }
         public bool IsActive { get; set; }
-
-        [EmailAddress]
         public string Email { get; set; }
-        public Gender Gender { get; set; }
+
+        // public Gender Gender { get; set; }
+        //  public EmpType EmployeeType { get; set; }
+
         public bool IsDeleted { get; set; } = false;
-        public EmpType EmployeeType { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime HiringDate { get; set; }

@@ -11,8 +11,8 @@ namespace Client.BLL.Interfaces
     {
         IEnumerable<T> GetAll();
         T Get(int id);
-        int Add(T enity);
-        int Update(T enity);
-        int Delete(T enity);
+        void Add(T enity);
+        void Update(T enity);
+        void Delete(T enity);
     }
 }

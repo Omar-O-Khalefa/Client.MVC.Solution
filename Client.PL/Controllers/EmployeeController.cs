@@ -20,32 +20,43 @@ namespace Client.PL.Controllers
         private readonly IEmployeeRepository _EmployeeRepository;
        //private readonly IDepartmentRepository _departmentRepository;
         private readonly IHostEnvironment _env;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EmployeeController(IMapper mapper,IEmployeeRepository employee,/*IDepartmentRepository departmentRepository,*/ IHostEnvironment Env)
+        public EmployeeController(
+            IMapper mapper,
+            /*IEmployeeRepository employee,*/
+            /*IDepartmentRepository departmentRepository,*/
+            IHostEnvironment Env
+            ,IUnitOfWork unitOfWork
+                                 )
         {
-            _mapper = mapper;
-            _EmployeeRepository = employee;
-            //_departmentRepository = departmentRepository;
             _env = Env;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+
+           // _EmployeeRepository = employee;
+            //_departmentRepository = departmentRepository;
+
         }
         // /Employee/Index
         public IActionResult Index( string SearchInp)
         {
             var employees = Enumerable.Empty<Employee>();
-            if (string.IsNullOrEmpty(SearchInp)) {
+            if (string.IsNullOrEmpty(SearchInp))
+            {
 
-
-                employees = _EmployeeRepository.GetAll();
-
-            return View(employees);
+                employees = _unitOfWork.EmployeeRepository.GetAll();
+           
 
             }
             else
             {
-                employees = _EmployeeRepository.SearchByName(SearchInp.ToLower());
-                var MappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employees);
-                return View(MappedEmp);
+                employees = _unitOfWork.EmployeeRepository.SearchByName(SearchInp.ToLower());
             }
+           
+            var MappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employees);
+                return View(MappedEmp);
+
         }
         [HttpGet]
         public IActionResult Create()
@@ -72,7 +83,8 @@ namespace Client.PL.Controllers
                 ///};
                 ///
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-                var Coun = _EmployeeRepository.Add(mappedEmp);
+                 _unitOfWork.EmployeeRepository.Add(mappedEmp);
+                var Coun = _unitOfWork.Complete();
                 if (Coun > 0)
                 {
                     TempData["Message"] = "Employee Is successfuly Add";
@@ -89,7 +101,7 @@ namespace Client.PL.Controllers
         {
             if (id is null)
                 return BadRequest();
-            var Employee = _EmployeeRepository.Get(id.Value);
+            var Employee = _unitOfWork.EmployeeRepository.Get(id.Value);
             var MappedEmp =_mapper.Map<Employee, EmployeeViewModel>(Employee);
             if (MappedEmp is null)
                 return NotFound();
@@ -123,7 +135,8 @@ namespace Client.PL.Controllers
             try
             {
                 var mappedEmp = _mapper.Map<EmployeeViewModel,Employee>(employeeVM);
-                _EmployeeRepository.Update(mappedEmp);
+                _unitOfWork.EmployeeRepository.Update(mappedEmp);
+                _unitOfWork.Complete(); 
                 return RedirectToAction(nameof(Index));
             }
             catch (System.Exception ex)
@@ -152,7 +165,8 @@ namespace Client.PL.Controllers
             try
             {
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVm);
-                _EmployeeRepository.Delete(mappedEmp);
+                _unitOfWork.EmployeeRepository.Delete(mappedEmp);
+                _unitOfWork.Complete(); 
                 return RedirectToAction(nameof(Index));
             }
             catch (System.Exception ex)

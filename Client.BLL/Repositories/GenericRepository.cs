@@ -16,22 +16,22 @@ namespace Client.BLL.Repositories
         {
             _dbcontext = dbContext;
         }
-        public int Add(T enity)
+        public void Add(T enity)
         {
             _dbcontext.Set<T>().Add(enity);
             //  _dbcontext.Add(enity);  EF Core 3.1 New Feature
-            return _dbcontext.SaveChanges();
+           // return _dbcontext.SaveChanges();
         }
-        public int Update(T enity)
+        public void Update(T enity)
         {
             _dbcontext.Set<T>().Update(enity);
             //  _dbcontext.Update(enity);  EF Core 3.1 New Feature
-            return _dbcontext.SaveChanges();
+           // return _dbcontext.SaveChanges();
         }
-        public int Delete(T enity)
+        public void Delete(T enity)
         {
             _dbcontext.Set<T>().Remove(enity);
-            return _dbcontext.SaveChanges();
+            //return _dbcontext.SaveChanges();
         }
         public T Get(int id)
         {

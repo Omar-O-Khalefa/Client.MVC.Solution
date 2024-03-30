@@ -2,6 +2,7 @@ using Client.BLL.Interfaces;
 using Client.BLL.Repositories;
 using Client.DAL.Data;
 using Client.PL.Extensions;
+using Client.PL.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,13 +35,15 @@ namespace Client.PL
 
             ///services.AddScoped<ApplicationDbContext>();
             ///services.AddScoped<DbContextOptions<ApplicationDbContext>>();
- 
+
             ///services.AddDbContext<ApplicationDbContext>
             ///    (
             ///    contextLifetime: ServiceLifetime.Scoped,
             ///    optionsLifetime: ServiceLifetime.Scoped
             ///    );
-            
+
+
+           // services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
 
             services.AddDbContext<ApplicationDbContext>(
                 options =>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))

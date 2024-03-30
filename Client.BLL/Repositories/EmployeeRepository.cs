@@ -14,7 +14,7 @@ namespace Client.BLL.Repositories
     {
         //private readonly ApplicationDbContext _dbContext;
 
-        public EmployeeRepository(ApplicationDbContext dbContext):base(dbContext) // Asking Clr For Creating Object From DbContext
+        public EmployeeRepository(ApplicationDbContext dbContext):base(dbContext) // =---- Asking Clr For Creating Object From DbContext
         {
             //_dbContext = dbContext;
         }

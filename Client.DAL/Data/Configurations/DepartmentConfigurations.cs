@@ -14,7 +14,7 @@ namespace Client.DAL.Data.Configurations
         public void Configure(EntityTypeBuilder<Department> builder)
         {
             //fluent Apis for "Department" Domain
-            builder.Property(x => x.Id).UseIdentityColumn(10,10);
+            builder.Property(x => x.Id).UseIdentityColumn(10, 10);
             builder.Property(x => x.Name).HasColumnType("varchar").HasMaxLength(50).IsRequired();
             builder.Property(x => x.Code).HasColumnType("varchar").HasMaxLength(50).IsRequired();
             builder.HasMany(x => x.Employees).WithOne(E => E.Department).HasForeignKey(E => E.DepartmentId).OnDelete(DeleteBehavior.Cascade);
