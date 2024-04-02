@@ -6,10 +6,9 @@ using Client.PL.Helpers;
 using Client.PL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 
 namespace Client.PL.Controllers
 {
@@ -21,7 +20,7 @@ namespace Client.PL.Controllers
         // Association : EmployeeController has EmployeeRepository
 
         private readonly IEmployeeRepository _EmployeeRepository;
-       //private readonly IDepartmentRepository _departmentRepository;
+        //private readonly IDepartmentRepository _departmentRepository;
         private readonly IHostEnvironment _env;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -30,19 +29,19 @@ namespace Client.PL.Controllers
             /*IEmployeeRepository employee,*/
             /*IDepartmentRepository departmentRepository,*/
             IHostEnvironment Env
-            ,IUnitOfWork unitOfWork
+            , IUnitOfWork unitOfWork
                                  )
         {
             _env = Env;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
 
-           // _EmployeeRepository = employee;
+            // _EmployeeRepository = employee;
             //_departmentRepository = departmentRepository;
 
         }
         // /Employee/Index
-        public IActionResult Index( string SearchInp)
+        public IActionResult Index(string SearchInp)
         {
             var employees = Enumerable.Empty<Employee>();
             var EmoRepo = _unitOfWork.Repository<Employee>() as EmployeeRepository;
@@ -50,22 +49,22 @@ namespace Client.PL.Controllers
             {
 
                 employees = _unitOfWork.Repository<Employee>().GetAll();
-           
+
 
             }
             else
             {
                 employees = EmoRepo.SearchByName(SearchInp.ToLower());
             }
-           
+
             var MappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employees);
-                return View(MappedEmp);
+            return View(MappedEmp);
 
         }
         [HttpGet]
         public IActionResult Create()
         {
-         //   ViewData["Departments"]= _departmentRepository.GetAll();
+            //   ViewData["Departments"]= _departmentRepository.GetAll();
             return View();
         }
         [HttpPost]
@@ -73,7 +72,7 @@ namespace Client.PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                employeeVM.ImageName =  DocumentSettings.UploadFile(employeeVM.Image, "Images");
+                employeeVM.ImageName = DocumentSettings.UploadFile(employeeVM.Image, "Images");
                 //Manual Mapping
                 ///var Mappedemployee = new Employee()
                 ///{
@@ -90,7 +89,7 @@ namespace Client.PL.Controllers
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
 
 
-                 _unitOfWork.Repository<Employee>().Add(mappedEmp);
+                _unitOfWork.Repository<Employee>().Add(mappedEmp);
 
                 var Coun = _unitOfWork.Complete();
 
@@ -99,9 +98,9 @@ namespace Client.PL.Controllers
                     TempData["Message"] = "Employee Is successfuly Add";
                     return RedirectToAction(nameof(Index));
                 }
-              
+
             }
-            
+
             TempData["Message"] = "An Error Has Occred";
             return View(employeeVM);
         }
@@ -111,9 +110,13 @@ namespace Client.PL.Controllers
             if (id is null)
                 return BadRequest();
             var Employee = _unitOfWork.Repository<Employee>().Get(id.Value);
-            var MappedEmp =_mapper.Map<Employee, EmployeeViewModel>(Employee);
+            var MappedEmp = _mapper.Map<Employee, EmployeeViewModel>(Employee);
             if (MappedEmp is null)
                 return NotFound();
+            if (ViewName.Equals("Delete", StringComparison.OrdinalIgnoreCase))
+            {
+                TempData["ImageName"] = Employee.ImageName;
+            };
             return View(ViewName, MappedEmp);
         }
         [HttpGet]
@@ -126,7 +129,7 @@ namespace Client.PL.Controllers
             //    return NotFound();
             //return View(Employee);
 
-           // ViewData["Departments"] = _departmentRepository.GetAll();
+            // ViewData["Departments"] = _departmentRepository.GetAll();
             return Details(id, "Edit");
         }
         [HttpPost]
@@ -143,9 +146,9 @@ namespace Client.PL.Controllers
             }
             try
             {
-                var mappedEmp = _mapper.Map<EmployeeViewModel,Employee>(employeeVM);
+                var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
                 _unitOfWork.Repository<Employee>().Update(mappedEmp);
-                _unitOfWork.Complete(); 
+                _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             catch (System.Exception ex)
@@ -174,9 +177,18 @@ namespace Client.PL.Controllers
             try
             {
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVm);
+                employeeVm.ImageName = TempData["ImageName"] as string;
                 _unitOfWork.Repository<Employee>().Delete(mappedEmp);
-                _unitOfWork.Complete(); 
-                return RedirectToAction(nameof(Index));
+                var Count = _unitOfWork.Complete();
+                if (Count > 0)
+                {
+                    DocumentSettings.DeleteFile(employeeVm.ImageName, "Images");
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return View(employeeVm);
+                }
             }
             catch (System.Exception ex)
             {
