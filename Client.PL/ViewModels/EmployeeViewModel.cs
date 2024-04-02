@@ -1,4 +1,5 @@
 ﻿using Client.DAL.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
@@ -58,6 +59,9 @@ namespace Client.PL.ViewModels
 
         //[InverseProperty(nameof(Models.Department.Employees))]
         public Department Department { get; set; }
+        public IFormFile Image  { get; set; }
+
+        public string ImageName { get; set; }
 
 
     }

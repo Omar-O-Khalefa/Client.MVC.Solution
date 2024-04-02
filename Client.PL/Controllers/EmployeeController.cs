@@ -2,12 +2,14 @@
 using Client.BLL.Interfaces;
 using Client.BLL.Repositories;
 using Client.DAL.Models;
+using Client.PL.Helpers;
 using Client.PL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace Client.PL.Controllers
 {
@@ -71,6 +73,7 @@ namespace Client.PL.Controllers
         {
             if (ModelState.IsValid)
             {
+                employeeVM.ImageName =  DocumentSettings.UploadFile(employeeVM.Image, "Images");
                 //Manual Mapping
                 ///var Mappedemployee = new Employee()
                 ///{
@@ -85,8 +88,12 @@ namespace Client.PL.Controllers
                 ///};
                 ///
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
+
+
                  _unitOfWork.Repository<Employee>().Add(mappedEmp);
+
                 var Coun = _unitOfWork.Complete();
+
                 if (Coun > 0)
                 {
                     TempData["Message"] = "Employee Is successfuly Add";

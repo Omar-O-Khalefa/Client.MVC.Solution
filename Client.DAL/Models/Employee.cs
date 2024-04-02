@@ -45,6 +45,8 @@ namespace Client.DAL.Models
         //[InverseProperty(nameof(Models.Department.Employees))]
         public Department Department { get; set; }
 
+        public string ImageName { get; set; }
+
     }
 }
 
