@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Client.BLL
 {
-    public class UnitOfWork : IUnitOfWork 
+    public class UnitOfWork : IUnitOfWork
     {
         //private Dictionary<string,IGenericRepository<ModelBase>> _repositoties;
 
@@ -31,14 +31,16 @@ namespace Client.BLL
 
             //DepartmentRepository = new DepartmentRepository(_dbContext);
         }
-        public int Complete()
+        public async Task<int> Complete()
         {
-          return  _dbContext.SaveChanges();
+          return await _dbContext.SaveChangesAsync();
         }
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
-            _dbContext.Dispose();
+          await  _dbContext.DisposeAsync();
         }
+
+     
 
         public IGenericRepository<T> Repository<T>() where T : ModelBase
         {

@@ -4,6 +4,7 @@ using Client.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Client.BLL.Repositories
 {
@@ -33,7 +34,7 @@ namespace Client.BLL.Repositories
             _dbcontext.Set<T>().Remove(enity);
             //return _dbcontext.SaveChanges();
         }
-        public T Get(int id)
+        public async Task<T> GetAsync(int id)
         {
             ///var Employe =  _dbcontext.Set<T>().Local.Where(x => x.Id == id).FirstOrDefault();
             ///
@@ -44,17 +45,17 @@ namespace Client.BLL.Repositories
             ///return Employe;
             //return _dbcontext.Find<T>(id);
 
-            return _dbcontext.Set<T>().Find(id);
+            return await _dbcontext.Set<T>().FindAsync(id);
         }
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             if (typeof(T) == typeof(Employee))
             {
-                return (IEnumerable<T>)_dbcontext.Employees.Include(E => E.Department).AsNoTracking();
+                return  (IEnumerable<T>) await _dbcontext.Employees.Include(E => E.Department).AsNoTracking().ToListAsync();
             }
             else
             {
-                return _dbcontext.Set<T>().AsNoTracking().ToList();
+                return await _dbcontext.Set<T>().AsNoTracking().ToListAsync();
             }
         }
 

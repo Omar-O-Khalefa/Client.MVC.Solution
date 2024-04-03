@@ -3,6 +3,7 @@ using Client.BLL.Repositories;
 using Client.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace Client.PL.Controllers
 {
@@ -23,9 +24,9 @@ namespace Client.PL.Controllers
             _env = Env;
         }
         // /Department/Index
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var Deps = _unitOfWork.Repository<Department>().GetAll();
+            var Deps =await _unitOfWork.Repository<Department>().GetAllAsync();
              
             return View(Deps);
         }
@@ -35,12 +36,12 @@ namespace Client.PL.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create( Department department) 
+        public async Task<IActionResult> Create( Department department) 
         { 
             if (ModelState.IsValid)
             {
                 _unitOfWork.Repository<Department>().Add(department);
-                var Coun = _unitOfWork.Complete();
+                var Coun = await _unitOfWork.Complete();
                 if (Coun > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -49,17 +50,17 @@ namespace Client.PL.Controllers
             return View(department);
         }
 
-        public IActionResult Details(int? id, string ViewName = "Details")
+        public async Task<IActionResult> Details(int? id, string ViewName = "Details")
         {
             if (id is null)
                 return BadRequest();
-            var Dept = _unitOfWork.Repository<Department>().Get(id.Value);
+            var Dept =await _unitOfWork.Repository<Department>().GetAsync(id.Value);
             if(Dept is null)
                 return NotFound();
             return View(ViewName,Dept);
         }
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             //if (!id.HasValue)
             //    return BadRequest();
@@ -67,7 +68,7 @@ namespace Client.PL.Controllers
             //if (Dept is null)
             //    return NotFound();
             //return View(Dept);
-            return Details(id,"Edit");
+            return await Details(id,"Edit");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -101,9 +102,9 @@ namespace Client.PL.Controllers
         }
 
         //Department/Delete
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return Details(id ,"Delete");
+            return await Details(id ,"Delete");
         }
 
         [HttpPost]

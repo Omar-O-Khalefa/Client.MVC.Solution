@@ -1,21 +1,16 @@
-﻿using Client.DAL.Data.Configurations;
-using Client.DAL.Models;
+﻿using Client.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client.DAL.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base( options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            
+
         }
         // use when you didnt use dependancie injection
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -24,13 +19,19 @@ namespace Client.DAL.Data
         //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          //modelBuilder.ApplyConfiguration<Department>(new DepartmentConfigurations());
-          //modelBuilder.ApplyConfiguration<Employee>(new EmployeetConfigurations());
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+
+            //modelBuilder.ApplyConfiguration<Department>(new DepartmentConfigurations());
+            //modelBuilder.ApplyConfiguration<Employee>(new EmployeetConfigurations());
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
 
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        //public DbSet<IdentityUser> Users { get; set; }
+        //public DbSet<IdentityRole> Roles { get; set; }
+
     }
 }
