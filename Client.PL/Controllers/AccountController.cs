@@ -91,5 +91,13 @@ namespace Client.PL.Controllers
 			return View(model);
 		}
 		#endregion
+
+		#region SignOut
+		public async new Task<IActionResult> SignOut()
+		{
+			await _signInManager.SignOutAsync();
+			return RedirectToAction(nameof(Signin));
+		}
+		#endregion
 	}
 }
