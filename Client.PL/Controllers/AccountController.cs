@@ -1,5 +1,5 @@
 ﻿using Client.DAL.Models;
-using Client.PL.ViewModels.User;
+using Client.PL.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -16,16 +16,16 @@ namespace Client.PL.Controllers
 			_signInManager = signInManager;
 		}
 		#region Sign UP
-        public IActionResult SingUp()
+        public IActionResult SignUp()
 		{
 			return View();
 		}
 		[HttpPost]
-		public async Task<IActionResult> SingUp(SignUpViewModel model)
+		public async Task<IActionResult> SignUp(SignUpViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await _userManager.FindByNameAsync(model.Username);
+				var user = await _userManager.FindByNameAsync(model.Email);
 				if(user is null)
 				{
 
@@ -46,7 +46,7 @@ namespace Client.PL.Controllers
 					}
 
 				}
-				ModelState.AddModelError(string.Empty, "This User Name Is Already in Use For Another Account!");
+				ModelState.AddModelError(string.Empty, "This Email Is Already in Use For Another Account!");
 
 			}
 			return View(model);
@@ -54,8 +54,42 @@ namespace Client.PL.Controllers
 		#endregion
 
 		#region Sign In
+		public IActionResult Signin()
+		{
+			return View();
+		}
+		[HttpPost]
+		public async Task<IActionResult> SignIn(SignInViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await _userManager.FindByEmailAsync(model.Email);
+				if (user is not null)
+				{
+					var flag = await _userManager.CheckPasswordAsync(user ,model.Password);
+					if (flag) 
+					{
+						var resalt = await _signInManager.PasswordSignInAsync(user, model.Password, model.RemmeberMe, false);
+						if (resalt.IsLockedOut)
+						{
+							ModelState.AddModelError(string.Empty, "Your Account Is Loced!");
+						}
 
-		//
+						///if(resalt.IsNotAllowed)
+						///{
+						///	ModelState.AddModelError(string.Empty, "Your Account is Not Confirmed yet!");
+						///}.
+			
+						if (resalt.Succeeded)
+						{
+							return RedirectToAction(nameof(HomeController.Index),"Home");
+						}
+					}
+				}
+				ModelState.AddModelError(string.Empty, "Invalid Login");
+			}
+			return View(model);
+		}
 		#endregion
 	}
 }

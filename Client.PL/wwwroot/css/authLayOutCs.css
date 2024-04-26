@@ -614,7 +614,7 @@ input.checkbox {
         padding: 2.2em;
     }
 
-    input.email, input.text.w3lpass {
+    input.email,input.margo, input.text.w3lpass {
         margin: 1.5em 0;
     }
 
