@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Client.DAL.Models;
 using Microsoft.CodeAnalysis.Options;
 using System;
+using Client.PL.services.EmailSender;
 
 namespace Client.PL.Extensions
 {
@@ -21,7 +22,7 @@ namespace Client.PL.Extensions
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(M=>M.AddProfile(new MappingProfiles()));
-
+            services.AddTransient<IEmailSender , EmailSender>();    
 
             //services.AddScoped<UserManager<ApplicationUser>>();
             //services.AddScoped<SignInManager<ApplicationUser>>();
