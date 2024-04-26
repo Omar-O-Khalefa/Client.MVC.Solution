@@ -99,5 +99,26 @@ namespace Client.PL.Controllers
 			return RedirectToAction(nameof(Signin));
 		}
 		#endregion
+
+		#region ForgetPassword
+
+		public IActionResult ForgetPassword()
+		{
+			return View();
+		}
+		public async Task<IActionResult> SendResetPasswordEmail(ForgetPasswordViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await _userManager.FindByEmailAsync(model.Email);
+				if(user is not null)
+				{
+
+				}
+				ModelState.AddModelError(string.Empty, "There Is No Account With This Email.");
+			}
+			return View(model);
+		}
+		#endregion
 	}
 }
