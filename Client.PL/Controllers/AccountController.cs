@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
+using NuGet.Protocol;
 using System.Threading.Tasks;
 
 namespace Client.PL.Controllers
@@ -125,20 +126,20 @@ namespace Client.PL.Controllers
 				var user = await _userManager.FindByEmailAsync(model.Email);
 				if(user is not null)
 				{
-					var restPasswordToken = _userManager.GeneratePasswordResetTokenAsync(user); //UNiQUE Token
+					var restPasswordToken =await _userManager.GeneratePasswordResetTokenAsync(user); //UNiQUE Token
 
-					var resetPasswordUrl = Url.Action("Resetpassword", "Account", new { emil = user.Email , Token = restPasswordToken }/*,"https", "localhost:44331"*/);
+					var resetPasswordUrl = Url.Action("ResetPassword", "Account", new {email = user.Email ,token = restPasswordToken},"https:", "localhost:44331");
 					//localhost:44331/Account/ResetPassword?email=Omar@gmail.com
 					await _emailSender.SendAsync(
 						from: _configuration["EmailSettings:SenderEmail"],
 						recipents: model.Email,
 						subject: "Rest Your Passowrd",
-						body: "ResetPasswordUrl");
+						body: resetPasswordUrl);
 					return RedirectToAction(nameof(CheckYourInbox));
 				}
 				ModelState.AddModelError(string.Empty, "There Is No Account With This Email.");
 			}
-			return View(model);
+			return View("ForgetPassword");
 		}
 
 		public IActionResult CheckYourInbox()
@@ -168,7 +169,7 @@ namespace Client.PL.Controllers
 				
 				if( user is not null)
 				{
-					await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
+					var rs = await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
 					return RedirectToAction(nameof(SignIn));
 				}
 				ModelState.AddModelError(string.Empty, "Url Is Not Valid");

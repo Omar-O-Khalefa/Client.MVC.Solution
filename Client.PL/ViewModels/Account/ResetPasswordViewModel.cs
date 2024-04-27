@@ -14,7 +14,7 @@ namespace Client.PL.ViewModels.Account
 		[DataType(DataType.Password)]
 		[Compare(nameof(NewPassword), ErrorMessage = "Password Dosent Match")]
 		public string ConfirmPassword { get; set; }
-        
 
+    
     }
 }

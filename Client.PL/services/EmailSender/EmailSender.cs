@@ -15,22 +15,23 @@ namespace Client.PL.services.EmailSender
 		}
 		public async Task SendAsync(string form, string recipents, string subject, string body)
 		{
-			var senderEmail = _configuration["EmailSettings:EmailSender"];
-			var senderPassword = _configuration["EmailSettings:EmailPassword"];
+			var senderEmail = _configuration["EmailSettings:SenderEmail"];
+			var senderPassword = _configuration["EmailSettings:SenderPassword"];
 
 			var emailMessage = new MailMessage();
 			emailMessage.From = new MailAddress(form);
 			emailMessage.To.Add (recipents);
 			emailMessage.Subject = subject;
-			emailMessage.Body = $"<html><body>{body}</body></html>";
-			emailMessage.IsBodyHtml = true;
+			emailMessage.Body = body;
+			//emailMessage.Body = $"<html><body>{body}</body></html>";
+			//emailMessage.IsBodyHtml = true;
 
 			var smtpClient = new SmtpClient(_configuration["EmailSettings:SmtpClientServer"], int.Parse(_configuration["EmailSettings:SmtpClientPort"]))
 			{
 				Credentials = new NetworkCredential(senderEmail,senderPassword),
 				EnableSsl = true
 			};
-
+			await smtpClient.SendMailAsync (emailMessage);
 		}
 	}
 }
