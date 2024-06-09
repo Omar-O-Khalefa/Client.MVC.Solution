@@ -21,15 +21,18 @@ namespace Client.PL.Helpers
                 Directory.CreateDirectory(folderPath);
             }
             //2.Get File Name and Make It Unique
-            string fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+            string fileName = $"{Guid.NewGuid()}{Path.GetExtension(file?.FileName)}";
 
             //3.file Path
             string filePath = Path.Combine(folderPath, fileName);
 
             //4.Save File as Streams [Data per Time]
-             using var fileStream = new FileStream(filePath, FileMode.Create); 
+             using var fileStream = new FileStream(filePath, FileMode.Create);
 
-          await  file.CopyToAsync(fileStream);
+         
+          await  file?.CopyToAsync(fileStream);
+
+      
 
             return fileName;
         }

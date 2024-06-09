@@ -73,7 +73,11 @@ namespace Client.PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                employeeVM.ImageName =await DocumentSettings.UploadFile(employeeVM.Image, "Images");
+                if(employeeVM.ImageName is not null)
+                {
+
+                employeeVM.ImageName =await DocumentSettings.UploadFile(employeeVM?.Image, "Images");
+                }
                 //Manual Mapping
                 ///var Mappedemployee = new Employee()
                 ///{
